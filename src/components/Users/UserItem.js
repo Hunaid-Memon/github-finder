@@ -1,22 +1,21 @@
 import React, { Component } from 'react'
 
 class UserItem extends Component {
-    constructor() {
-        super();
-        this.state = {
-          id: 1,
-          login: 'mojombo',
-          avatar_url: 'https://avatars.githubusercontent.com/u/1?v=4',
-          html_url: 'https://github.com/mojombo'
-        }
+  
+    state = {
+        id: 1,
+        login: 'mojombo',
+        avatar_url: 'https://avatars.githubusercontent.com/u/1?v=4',
+        html_url: 'https://github.com/mojombo'
       }
     
     render() {
+        const {login, avatar_url, html_url} = this.state;
         return (
             <div className='card text-center'>
-                <img src={this.state.avatar_url} alt="Profile" className='round-img' style={{width:'60px'}} />
-                <h3>{this.state.login}</h3>
-                <a href={this.state.html_url} className="btn btn-dark btn-sm my-1">Profile</a>
+                <img src={avatar_url} alt="Profile" className='round-img' style={{width:'60px'}} />
+                <h3>{login}</h3>
+                <a href={html_url} className="btn btn-dark btn-sm my-1">Profile</a>
             </div>
         )
     }
