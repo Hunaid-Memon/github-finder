@@ -6,8 +6,18 @@ import './App.css';
 
 
 class App extends React.Component {
-  componentDidMount() {
-    axios.get('https://api.github.com/users').then(res => console.log(res.data))
+  state = {
+    users: [],
+    loading: false
+  }
+
+  async componentDidMount() {
+    this.setState({loading: true})
+    const res = await axios.get('https://api.github.com/users')
+    console.log(res.data);
+    this.setState({users: res.data, loading: false})
+       
+      
   }
 
   render() {   
@@ -15,7 +25,7 @@ class App extends React.Component {
       <div className='App'>
           <Navbar />
           <div className='container'>
-            <Users />
+            <Users loading={this.state.loading} users={this.state.users}/>
           </div>
       </div>
     )
