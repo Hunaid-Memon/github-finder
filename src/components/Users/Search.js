@@ -21,6 +21,7 @@ class Search extends Component {
     
 
     render() {
+        const {showClear, clearUsers} = this.props;
         return (
             <div>
                <form onSubmit={this.onSubmit} className="form">
@@ -30,8 +31,8 @@ class Search extends Component {
                     />
                    <input type="submit" value="Search" className='btn btn-dark btn-block' />
                 </form> 
-                {this.props.showClear && (
-                    <button onClick={this.props.clearUsers} className="btn btn-light btn-block">Clear</button>
+                {showClear && (
+                    <button onClick={clearUsers} className="btn btn-light btn-block">Clear</button>
                 )}
             </div>
         )
