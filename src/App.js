@@ -6,31 +6,33 @@ import axios from "axios";
 import "./App.css";
 import Search from "./components/Users/Search";
 import Alert from "./components/layouts/Alert";
+import About from "./components/pages/About";
+import User from "./components/Users/User";
+
 
 class App extends React.Component {
   state = {
     users: [],
+    user: {},
     loading: false,
     alert: null
   };
-
-  // async componentDidMount() {
-  //   this.setState({ loading: true });
-  //   const res = await axios.get(
-  //     `https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-  //   );
-  //   // console.log(res.data);
-  //   this.setState({ users: res.data, loading: false });
-  // }
 
   searchUsers = async (text) => {
     this.setState({ loading: true });
     const res = await axios.get(
       `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
-    // console.log(res.data);
     this.setState({ users: res.data.items, loading: false });
   };
+
+  getUser = async (username) => {
+    this.setState({ loading: true });
+    const res = await axios.get(
+      `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+      );
+    this.setState({ user: res.data, loading: false });
+  }
 
   clearUsers = () => this.setState( {users: [], loading: false} )
 
@@ -41,14 +43,14 @@ class App extends React.Component {
   }
 
   render() {
-    const {users, loading} = this.state;
+    const {users, user, loading} = this.state;
     return (
       <Router>
         <div className='App'>
           <Navbar />
           <div className='container'>
             <Alert alert={this.state.alert} />
-              <switch>
+              <Switch>
                 <Route exact path='/' render={ props => (
                   <Fragment>
                     <Search searchUsers={this.searchUsers} 
@@ -58,7 +60,11 @@ class App extends React.Component {
                     <Users loading={loading} users={users} />
                   </Fragment>
                 )} />
-              </switch>
+                <Route exact path='/about' component={About} />
+                <Route exact path='/user/:login' render={ props => (
+                  <User {...props} getUser={this.getUser} user={user} loading={loading} />
+                )} />
+              </Switch>
           </div>
         </div>
       </Router>
