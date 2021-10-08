@@ -6,8 +6,10 @@ const Navbar = props => {
         return (
             <nav className='navbar bg-primary'>
                 <h1>
-                <i className={props.icon}></i>
-                {props.title}
+                <Link to='/'style={{cursor:'pointer'}}>
+                    <i className={props.icon}></i>
+                    {props.title}
+                </Link>
                 </h1>
                 <ul>
                     <li>
